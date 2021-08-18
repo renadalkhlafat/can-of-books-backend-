@@ -21,11 +21,8 @@ const seedData = () => {
         status: "used"
       }],
     });
-    console.log(newBook);
+    // console.log(newBook);
     newBook.save();
   };
 
-  const seedBooksData=()=>{
-      seedData();
-  }
-  module.exports=seedBooksData;
+  module.exports=seedData;

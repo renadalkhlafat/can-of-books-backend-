@@ -17,7 +17,6 @@ const getKey = (header, callback) => {
 }
 
 const authorizationHandler = (request, response) => {
-    console.log(request.headers);
     const token = request.headers.authorization.split(' ')[1];
     jwt.verify(token, getKey, {}, (err, user) => {
         if (err) {

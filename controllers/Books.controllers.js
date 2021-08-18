@@ -3,18 +3,24 @@
 const bookModel = require('../models/BookSchema.models');
 
 const getBookHandler = (req, res) => {
-  bookModel.find({ email: req.query.email }, (err, books) => err ? res.send(err) : res.json(books));
+  bookModel.find({ email: req.query.email }, (err, books) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(books)
+    }
+  });
 };
 
-const createBookHandler = (req, res) => {
+const createBookHandler = async (req, res) => {
   bookModel.findOne({ email: req.body.email }, (error, bookdata) => {
     if (error) {
       res.send(error);
     } else {
       bookdata.book.push({ name: req.body.name, description: req.body.description, status: req.body.status });
-      console.log(bookdata);
+      console.log(bookdata.book);
       bookdata.save();
-      res.json(bookdata);
+      res.json(bookdata)
     }
   });
 };
@@ -22,20 +28,35 @@ const createBookHandler = (req, res) => {
 const deleteBookHandler = (req, res) => {
 
   bookModel.findOne({ email: req.query.email }, (error, bookdata) => {
-      if (error) {
-        res.send(error)
-      } else {
-        bookdata.book.splice(req.params.id, 1);
-        bookdata.save();
-        res.send(bookdata)
-      }
-
-  });
-
+    if (error) {
+      res.send(error)
+    } else {
+      bookdata.book.splice(req.params.id, 1);
+      bookdata.save();
+      res.send(bookdata)
+    }
+  })
 };
+
+const updateBookHandler = (req, res) => {
+  bookModel.findOne({ email: req.body.email }, (error, bookdata) => {
+    if (error) {
+      res.send(error)
+    } else {
+      bookdata.book.splice(req.params.id, 1, {
+        name: req.body.name,
+        description:req.body.description,
+        status:req.body.status
+      });
+      bookdata.save();
+      res.send(bookdata)
+    }
+  });
+}
 
 module.exports = {
   getBookHandler,
   createBookHandler,
   deleteBookHandler,
+  updateBookHandler
 };

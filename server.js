@@ -15,7 +15,8 @@ const authorizationHandler = require('./controllers/Authorization.controllers')
 const {
   getBookHandler,
   createBookHandler,
-  deleteBookHandler
+  deleteBookHandler,
+  updateBookHandler
 } = require('./controllers/Books.controllers')
 
 
@@ -26,10 +27,11 @@ app.get('/',liveHandler)
 app.get('/test', authorizationHandler);
 app.get('/book', getBookHandler);
 app.post('/book',createBookHandler)
-// app.delete('/book/:id',deleteBookHandler)
+app.delete('/book/:id',deleteBookHandler)
+app.put('/book/:id',updateBookHandler)
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
 
-seedBooksData();
+// seedBooksData();
 
 
 
